@@ -1,5 +1,9 @@
-# docker-config-local-development
+# docker-config-local-development for laravel 
+
+PHP-FPM, Nginx, MYSQL
 
 this config for local development
 
-need many setup for production purpose
+need adjustment for production purpose
+
+thanks

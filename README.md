@@ -1,4 +1,4 @@
-# docker-config-local-development for laravel 
+# docker-config-local-development for php  
 
 PHP-FPM, Nginx, MYSQL
 

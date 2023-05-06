@@ -35,51 +35,8 @@ RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
 RUN ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/
 RUN docker-php-ext-install pdo_dblib
 
-RUN docker-php-ext-install bcmath bz2 calendar ctype curl dba dom
-RUN docker-php-ext-install fileinfo exif ftp gettext gmp
-RUN docker-php-ext-install intl ldap mbstring mysqli
-RUN docker-php-ext-install opcache pcntl pspell
-RUN docker-php-ext-install pdo_mysql pdo_pgsql pdo_sqlite pgsql phar posix
-RUN docker-php-ext-install session shmop simplexml soap sockets sodium
-RUN docker-php-ext-install sysvmsg sysvsem sysvshm
-RUN docker-php-ext-install snmp
-RUN docker-php-ext-install xml xsl
-RUN docker-php-ext-install tidy tokenizer zend_test zip
-RUN docker-php-ext-install filter
+RUN docker-php-ext-install pdo_mysql pdo_pgsql pdo_sqlite pgsql bcmath xml curl fileinfo mbstring mysqli zip
 
-# install pecl extension
-RUN pecl install ds && \
-	pecl install imagick && \
-	pecl install igbinary && \
-	pecl install memcached && \
-	pecl install mcrypt && \
-	docker-php-ext-enable ds imagick igbinary memcached
-
-RUN pecl install mongodb && docker-php-ext-enable mongodb
-
-# install xdebug
-# RUN pecl install xdebug && docker-php-ext-enable xdebug
-
-#RUN yes "" | pecl install msgpack && \
-#	docker-php-ext-enable msgpack
-
-# install APCu
-#RUN pecl install apcu && \
-#	docker-php-ext-enable apcu --ini-name docker-php-ext-10-apcu.ini
-
-#RUN apt-get update -y && apt-get install -y apt-transport-https locales gnupg
-
-# install MSSQL support and ODBC driver
-# RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-# 	curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-# 	export DEBIAN_FRONTEND=noninteractive && apt-get update -y && \
-# 	ACCEPT_EULA=Y apt-get install -y msodbcsql unixodbc-dev
-# RUN set -xe \
-# 	&& pecl install pdo_sqlsrv \
-# 	&& docker-php-ext-enable pdo_sqlsrv \
-# 	&& apt-get purge -y unixodbc-dev && apt-get autoremove -y && apt-get clean
-
-# RUN docker-php-ext-configure spl && docker-php-ext-install spl
 
 # install GD
 RUN docker-php-ext-configure gd \
@@ -105,19 +62,6 @@ RUN EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)"
 RUN php composer-setup.php --quiet && rm composer-setup.php && \
 	mv composer.phar /usr/local/sbin/composer && \
 	chmod +x /usr/local/sbin/composer
-
-# install NewRelic agent
-#RUN echo 'deb [trusted=yes] http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list && \
-#	curl https://download.newrelic.com/548C16BF.gpg | apt-key add - && \
-#	apt-get -y update && \
-#	DEBIAN_FRONTEND=noninteractive apt-get -y install newrelic-php5 newrelic-sysmond && \
-#	export NR_INSTALL_SILENT=1 && newrelic-install install
-
-# install SendGrid
-#RUN echo "postfix postfix/mailname string localhost" | debconf-set-selections && \
-#	echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections && \
-#	DEBIAN_FRONTEND=noninteractive apt-get install postfix libsasl2-modules -y
-
 
 # Health check
 RUN echo '#!/bin/bash' > /healthcheck && \

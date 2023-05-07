@@ -34,7 +34,7 @@ services:
       MYSQL_DATABASE: awesome
 
     volumes:
-      - ./docker/data:/var/lib/mysql
+      - awesome:/var/lib/mysql
       - ./docker/my.cnf:/etc/mysql/my.cnf
     networks:
       - awesome-network
@@ -42,4 +42,8 @@ services:
 networks:
   awesome-network:
     driver: bridge
+
+volumes:
+    awesome:
+        driver: local
 
